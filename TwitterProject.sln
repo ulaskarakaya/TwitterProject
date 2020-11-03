@@ -3,18 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5449B49-B606-4592-870D-09A930386C67}"
-	ProjectSection(SolutionItems) = preProject
-		ReadMe.txt = ReadMe.txt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterProject.DomainLayer", "TwitterProject.DomainLayer\TwitterProject.DomainLayer.csproj", "{6DDDE3A3-8C7F-4FAF-8F3B-5981EDB13DA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterProject.InfrastructureLayer", "TwitterProject.InfrastructureLayer\TwitterProject.InfrastructureLayer.csproj", "{0EF75B04-3F88-421C-A8C2-AAB1F0B8AEDA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterProject.PresentationLayer", "TwitterProject.PresentationLayer\TwitterProject.PresentationLayer.csproj", "{E8BAB5A6-2D44-4AA3-A75E-BA01C728D4BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterProject.ApplicationLayer", "TwitterProject.ApplicationLayer\TwitterProject.ApplicationLayer.csproj", "{EB1756AD-7C1E-4F8A-81D6-6D29FDEEC5E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterProject.ApplicationLayer", "TwitterProject.ApplicationLayer\TwitterProject.ApplicationLayer.csproj", "{EB1756AD-7C1E-4F8A-81D6-6D29FDEEC5E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
