@@ -84,14 +84,63 @@ namespace TwitterProject.ApplicationLayer.Services.Concrete
             return tweets;
         }
 
-        public Task<TweetDetailVm> TweetDetail(int id, int userId)
+        public async Task<TweetDetailVm> TweetDetail(int id, int userId)
         {
-            throw new NotImplementedException();
+            var tweet = await _unitOfWork.Tweet.GetFilteredFirstorDefault(
+                selector: y => new TweetDetailVm
+                {
+                    Id = y.Id,
+                    Text = y.Text,
+                    ImagePath = y.ImagePath,
+                    AppUserId = y.AppUserId,
+                    LikeCounts = y.Likes.Count,
+                    MentionsCounts = y.Mentions.Count,
+                    ShareCounts = y.Shares.Count,
+                    CreateDate = y.CreateDate,
+                    UserName = y.AppUser.UserName,
+                    UserImage = y.AppUser.ImagePath,
+                    Mentions = y.Mentions.Where(z => z.TweetId == y.Id).OrderByDescending(z => z.CreateDate).Select(x => new MentionDto
+                    {
+                        Id = x.Id,
+                        Text = x.Text,
+                        AppUserId = x.AppUserId,
+                        UserName = x.AppUser.UserName,
+                        TweetId = x.TweetId,
+                        CreateDate = x.CreateDate,
+                        UserImage = x.AppUser.ImagePath
+                    }).ToList(),
+                    isLiked = y.Likes.Any(z => z.AppUserId == userId)
+                },
+                orderBy: z => z.OrderByDescending(x => x.CreateDate),
+                predicate: x => x.Id == id,
+                include: x => x.Include(z => z.AppUser).ThenInclude(z => z.Followers).Include(z => z.Likes)
+                );
+            return tweet;
         }
 
-        public Task<List<TimeLineVm>> UserTweets(string userName, int id, int pageIndex)
+        public async Task<List<TimeLineVm>> UserTweets(string userName, int id, int pageIndex)
         {
-            throw new NotImplementedException();
+            var userId = await _appUserService.UserIdFromName(userName);
+            var tweets = await _unitOfWork.Tweet.GetFilteredList(
+                selector: x => new TimeLineVm
+                {
+                    Id = x.Id,
+                    Text = x.Text,
+                    ImagePath = x.ImagePath,
+                    AppUserId = x.AppUserId,
+                    LikeCounts = x.Likes.Count,
+                    MentionsCounts = x.Mentions.Count,
+                    ShareCounts = x.Shares.Count,
+                    CreateDate = x.CreateDate,
+                    UserName = x.AppUser.UserName,
+                    UserImage = x.AppUser.ImagePath,
+                    isLiked = x.Likes.Any(y => y.AppUserId == userId)
+                },
+                orderBy: z => z.OrderByDescending(x => x.CreateDate),
+                predicate: z => z.AppUserId == userId,
+                include: x => x.Include(z => z.AppUser).ThenInclude(z => z.Followers).Include(z => z.Likes),
+                pageIndex: pageIndex);
+            return tweets;
         }
     }
 }
