@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TwitterProject.ApplicationLayer\TwitterProject.ApplicationLayer.csproj" />
     <ProjectReference Include="..\TwitterProject.InfrastructureLayer\TwitterProject.InfrastructureLayer.csproj" />
   </ItemGroup>
 

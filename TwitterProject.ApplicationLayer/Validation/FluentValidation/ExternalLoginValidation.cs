@@ -11,7 +11,7 @@ namespace TwitterProject.ApplicationLayer.Validation.FluentValidation
         public ExternalLoginValidation()
         {
             RuleFor(x => x.Email).NotEmpty().WithMessage("Enter a email address..!").EmailAddress().WithMessage("Please type in to valid email address..!");
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Please type into your name").
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Please type into your name");
         }
     }
 }

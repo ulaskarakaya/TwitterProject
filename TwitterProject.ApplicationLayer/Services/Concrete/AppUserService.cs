@@ -84,7 +84,7 @@ namespace TwitterProject.ApplicationLayer.Services.Concrete
 
         public AuthenticationProperties ExternalLogin(string provider, string redirectUrl)
         {
-            throw new NotImplementedException();
+            return _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
         }
 
         public Task<SignInResult> ExternalLoginSignIn(string provider, string key)
@@ -97,19 +97,32 @@ namespace TwitterProject.ApplicationLayer.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<EditProfileDto> GetById(int id)
+        public async Task<EditProfileDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.AppUser.GetById(id);
+
+            return _mapper.Map<EditProfileDto>(user);
         }
 
-        public Task<ProfileSummaryDto> GetByName(string UserName)
+        public async Task<ProfileSummaryDto> GetByName(string UserName)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.AppUser.GetFilteredFirstorDefault(
+                selector: y => new ProfileSummaryDto
+                {
+                    UserName = y.UserName,
+                    ImagePath = y.ImagePath,
+                    TweetCount = y.Tweets.Count,
+                    FollowersCount = y.Followers.Count,
+                    FollowingsCount = y.Following.Count
+                },
+                predicate: x => x.UserName == UserName);
+
+            return user;
         }
 
-        public Task<ExternalLoginInfo> GetExternalLoginInfo()
+        public async Task<ExternalLoginInfo> GetExternalLoginInfo()
         {
-            throw new NotImplementedException();
+            return await _signInManager.GetExternalLoginInfoAsync();
         }
 
         public Task<SignInResult> Login(LoginDto model)
@@ -127,10 +140,22 @@ namespace TwitterProject.ApplicationLayer.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<List<SearchUserDto>> SearchUser(string keyword, int pageIndex)
+        public async Task<List<SearchUserDto>> SearchUser(string keyword, int pageIndex)
         {
-            throw new NotImplementedException();
+            var users = await _unitOfWork.AppUser.GetFilteredList(
+                selector: x => new SearchUserDto
+                {
+                    Id = x.Id,
+                    UserName = x.UserName,
+                    ImagePath = x.ImagePath
+                },
+                predicate: x => x.UserName.Contains(keyword) || x.Name.Contains(keyword),
+                pageIndex: pageIndex,
+                pageSize: 10);
+
+            return users;
         }
+    
 
         public Task<List<FollowListVm>> UserFollowers(int id, int pageIndex)
         {

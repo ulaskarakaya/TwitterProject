@@ -6,15 +6,21 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterProject.DomainLayer\TwitterProject.DomainLayer.csproj" />
+    <ProjectReference Include="..\TwitterProject.InfrastructureLayer\TwitterProject.InfrastructureLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IoC\Containers\" />
   </ItemGroup>
 
 </Project>
